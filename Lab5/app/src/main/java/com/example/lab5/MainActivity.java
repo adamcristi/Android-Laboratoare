@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,11 +68,23 @@ public class MainActivity extends AppCompatActivity {
         Log.d("Status", "onCreate called");
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
     }
 
     protected  void onStart() {
         super.onStart();
         Log.d("Status", "onStart called");
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean backgroundPref = sharedPref.getBoolean(SettingsFragment.KEY_BACKGROUND, false);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.main);
+        if(layout != null) {
+            if (backgroundPref == true) {
+                layout.setBackgroundColor(Color.CYAN);
+            } else {
+                layout.setBackgroundColor(Color.WHITE);
+            }
+        }
     }
 
     protected  void onResume() {

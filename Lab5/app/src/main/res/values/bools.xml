@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <bool name="backgroundPreference">false</bool>
     <bool name="notificationsPreference">false</bool>
     <bool name="musicPreference">true</bool>
 </resources>
