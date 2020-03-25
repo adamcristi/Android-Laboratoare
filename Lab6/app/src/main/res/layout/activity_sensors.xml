@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SensorsActivity">
+
+    <TextView
+        android:id="@+id/accelometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Accelometer sensor data"
+        android:textSize="15dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"/>
+
+    <TextView
+        android:id="@+id/x_axis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accelometer"
+        android:paddingLeft="25dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:text="X axis" />
+
+    <TextView
+        android:id="@+id/y_axis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accelometer"
+        android:layout_toRightOf="@id/x_axis"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:text="Y axis" />
+
+    <TextView
+        android:id="@+id/z_axis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accelometer"
+        android:layout_toRightOf="@id/y_axis"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:text="Z axis" />
+
+</RelativeLayout>
