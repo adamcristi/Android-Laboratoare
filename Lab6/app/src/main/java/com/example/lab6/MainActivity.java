@@ -138,12 +138,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.sensors:
-                Intent newIntent = new Intent(MainActivity.this, SensorsActivity.class);
-                startActivity(newIntent);
+                Intent sensorsIntent = new Intent(MainActivity.this, SensorsActivity.class);
+                startActivity(sensorsIntent);
+                return true;
+            case R.id.coordinates:
+                Intent coordinatesIntent = new Intent(MainActivity.this, CoordinatesActivity.class);
+                startActivity(coordinatesIntent);
                 return true;
             case R.id.settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
                 return true;
             case  R.id.save_data:
                 if(isExternalStorageWritable()) {

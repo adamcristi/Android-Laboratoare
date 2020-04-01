@@ -4,6 +4,9 @@
         android:id="@+id/sensors"
         android:title="Sensors data" />
     <item
+        android:id="@+id/coordinates"
+        android:title="GPS Coordinates" />
+    <item
         android:id="@+id/settings"
         android:title="Settings" />
     <item

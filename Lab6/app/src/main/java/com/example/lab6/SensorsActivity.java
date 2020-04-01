@@ -9,76 +9,79 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-/*public class SensorsActivity extends AppCompatActivity {
+public class SensorsActivity extends AppCompatActivity implements SensorEventListener {
+    private SensorManager sensorManager;
+    private List<Sensor> sensors;
+    private List<HashMap<String, String>> listSensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensors);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        ListView listView = findViewById(R.id.list_sensors);
+
+        listSensors = new ArrayList<>();
+        sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (int index = 0; index < sensors.size(); ++index) {
+            HashMap<String, String> sensor = new HashMap<>();
+            sensor.put("Sensor Name", sensors.get(index).getName());
+            sensor.put("Sensor Data", "");
+            listSensors.add(sensor);
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, listSensors, R.layout.list_sensors,
+                new String[]{"Sensor Name", "Sensor Data"},
+                new int[]{R.id.name_sensor, R.id.data_sensor});
+
+        listView.setAdapter(adapter);
     }
-}*/
-
-public class SensorsActivity extends Activity implements SensorEventListener {
-    private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private boolean accelerometerInitialized;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensors);
+    protected void onResume() {
+        super.onResume();
 
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        accelerometerInitialized = false;
-
-        List sensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
-        for(int i=0; i<sensors.size(); ++i) {
-            Log.d("Status", sensors.get(i).toString());
+        for (int index = 0; index < sensors.size(); ++index) {
+            Sensor sensor = sensorManager.getDefaultSensor(sensors.get(index).getType());
+            sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
-    /*public SensorsActivity() {
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-    }*/
-
-    protected void onResume() {
-        super.onResume();
-        mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        Log.d("Status", this.mSensorManager.toString());
-        Log.d("Status", this.mAccelerometer.toString());
-    }
-
+    @Override
     protected void onPause() {
         super.onPause();
-        mSensorManager.unregisterListener(this);
+
+        sensorManager.unregisterListener(this);
     }
 
+    @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
+    @Override
     public void onSensorChanged(SensorEvent event) {
-        if(!accelerometerInitialized) {
-            accelerometerInitialized = true;
-
-            TextView textViewX = (TextView) findViewById(R.id.x_axis);
-            TextView textViewY = (TextView) findViewById(R.id.y_axis);
-            TextView textViewZ = (TextView) findViewById(R.id.z_axis);
-
-            textViewX.setText("X value = " + Float.toString(event.values[0]));
-            textViewY.setText("Y value = " + Float.toString(event.values[1]));
-            textViewZ.setText("Z value = " + Float.toString(event.values[2]));
-
-            Log.d("Status", Float.toString(event.values[0]));
-            Log.d("Status", Float.toString(event.values[1]));
-            Log.d("Status", Float.toString(event.values[2]));
-
+        String dataChanged = "Data: ";
+        for (int index = 0; index < event.values.length; ++index) {
+            dataChanged += event.values[index] + "\t";
         }
+
+        for (int index = 0; index < listSensors.size(); ++index) {
+            if (listSensors.get(index).containsValue(event.sensor.getName())) {
+                if (!listSensors.get(index).containsValue(dataChanged)) {
+                    listSensors.get(index).put("Sensor Data", dataChanged);
+                }
+            }
+        }
+
     }
 }
