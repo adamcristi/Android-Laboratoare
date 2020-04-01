@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="background"
+        android:title="Change background"
+        android:defaultValue="@bool/backgroundPreference" />
+
+    <SwitchPreference
+        android:key="notifications"
+        android:title="Enable message notifications"
+        android:defaultValue="@bool/notificationsPreference" />
+
+    <CheckBoxPreference
+        android:key="music"
+        android:title="Enable music"
+        android:defaultValue="@bool/musicPreference" />
+
+    <Preference
+        android:key="feedback"
+        android:title="Send feedback"
+        android:defaultValue="false"
+        android:summary="Report tehnical issues or suggest new features" />
+
+</PreferenceScreen>
