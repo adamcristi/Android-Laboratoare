@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    android:weightSum="10"
+    tools:context=".GameActivity">
+
+
+    <RelativeLayout
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+            <ImageButton
+                android:id="@+id/hint_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/technology"
+                android:contentDescription="@string/description_hint_icon"
+                android:tooltipText="@string/description_hint_icon"/>
+
+            <ImageButton
+                android:id="@+id/restart_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/refresh"
+                android:contentDescription="@string/description_restart_icon"
+                android:tooltipText="@string/description_restart_icon"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_current_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_current_score"
+                    android:textSize="34sp"
+                    android:textColor="@android:color/white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="10dp"
+                     />
+
+                <TextView
+                    android:id="@+id/current_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/initial_value_current_score"
+                    android:textSize="34sp"
+                    android:textColor="@android:color/white"
+                    android:paddingTop="10dp"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/text_best_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_best_score"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="36dp"
+                    android:paddingRight="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/best_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/initial_value_best_score"
+                    android:textSize="25sp"
+                    android:textColor="@android:color/white"
+                    android:paddingBottom="10dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <GridLayout
+        android:id="@+id/main_grid"
+        android:columnCount="3"
+        android:rowCount="3"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="14dp" >
+
+
+        <!-- Row 1  Column 1 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_1_col_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 1  Column 2 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_1_col_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 1  Column 3 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_1_col_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Row 2  Column 1 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_2_col_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 2  Column 2 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_2_col_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 2  Column 3 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_2_col_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Row 3  Column 1 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_3_col_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 3  Column 2 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_3_col_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Row 3  Column 3 -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <com.wajahatkarim3.easyflipview.EasyFlipView
+                android:id="@+id/cell_row_3_col_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:flipOnTouch="true"
+                app:flipDuration="400"
+                app:flipType="horizontal"
+                app:flipFrom="right" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/black"
+                    android:contentDescription="@string/description_black_image" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:contentDescription="@string/description_white_image" />
+
+            </com.wajahatkarim3.easyflipview.EasyFlipView>
+
+        </androidx.cardview.widget.CardView>
+
+    </GridLayout>
+
+</LinearLayout>
