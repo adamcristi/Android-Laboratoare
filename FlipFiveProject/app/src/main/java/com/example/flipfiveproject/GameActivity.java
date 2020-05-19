@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -33,8 +36,8 @@ public class GameActivity extends AppCompatActivity {
     private EasyFlipView cellRow2Column2;*/
     private int number_rows = 3;
     private int number_columns = 3;
-    private ArrayList<EasyFlipView> cells = new ArrayList<>();
-    private ArrayList<String> initial_state_cells = new ArrayList<>();
+    private List<EasyFlipView> cells = new ArrayList<>();
+    private List<String> initial_state_cells = new ArrayList<>();
     private boolean onResumeRun;
     private TextView viewCurrentScore;
     private TextView viewBestScore;
@@ -410,10 +413,10 @@ public class GameActivity extends AppCompatActivity {
     View.OnClickListener clickListenerRestartGame = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder alert_option1 = new AlertDialog.Builder(GameActivity.this);
-            alert_option1.setTitle("Restarting the game");
-            alert_option1.setMessage("Are you sure you want to restart the current game?");
-            alert_option1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder alertRestartGame = new AlertDialog.Builder(GameActivity.this);
+            alertRestartGame.setTitle("Restarting the game");
+            alertRestartGame.setMessage("Are you sure you want to restart the current game?");
+            alertRestartGame.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     GameActivity.this.restartGame();
@@ -421,14 +424,14 @@ public class GameActivity extends AppCompatActivity {
                     toast.show();
                 }
             });
-            alert_option1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            alertRestartGame.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast toast = Toast.makeText(GameActivity.this, "Option Quit!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
-            alert_option1.create().show();
+            alertRestartGame.create().show();
         }
     };
 
@@ -447,24 +450,85 @@ public class GameActivity extends AppCompatActivity {
     View.OnClickListener clickListenerHint = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            AlertDialog.Builder alert_option1 = new AlertDialog.Builder(GameActivity.this);
-            alert_option1.setTitle("Getting a hint");
-            alert_option1.setMessage("You got stuck and don't know how to continue playing this game. Do you want to get a small hint?");
-            alert_option1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            AlertDialog.Builder alertHint = new AlertDialog.Builder(GameActivity.this);
+            alertHint.setTitle("Getting a hint");
+            alertHint.setMessage("You got stuck and don't know how to continue playing this game. Do you want to get a small hint?");
+            alertHint.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast toast = Toast.makeText(GameActivity.this, "Hint received!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
-            alert_option1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            alertHint.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Toast toast = Toast.makeText(GameActivity.this, "Option Quit!", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             });
-            alert_option1.create().show();
+            alertHint.create().show();
         }
     };
+
+    private List<String[]> queueUnsolvedArraysStateCells;
+    private List<String[]> queueSolvedArraysStateCells;
+    private int rowHint;
+    private int columnHint;
+
+    public void findHint() {
+        queueUnsolvedArraysStateCells = new ArrayList<>();
+        queueSolvedArraysStateCells = new ArrayList<>();
+        rowHint = -1;
+        columnHint = -1;
+
+        String[] userArrayStateCells = new String[9];
+        for (int index = 0; index < number_rows * number_columns; ++index) {
+            if (cells.get(index).getCurrentFlipState().toString().equals("FRONT_SIDE")) {
+                userArrayStateCells[0] = "white";
+            } else if (cells.get(index).getCurrentFlipState().toString().equals("BACK_SIDE")) {
+                userArrayStateCells[0] = "black";
+            }
+        }
+        String[] completeArrayStateCells = {"white", "white", "white", "white", "white", "white", "white", "white", "white"};
+
+        queueUnsolvedArraysStateCells.add(completeArrayStateCells);
+        boolean foundSolution = false;
+        while (queueUnsolvedArraysStateCells.size() != 0) {
+            String[] currentArrayStateCells = queueUnsolvedArraysStateCells.get(0);
+            queueUnsolvedArraysStateCells.remove(0);
+
+            if (!queueSolvedArraysStateCells.contains(currentArrayStateCells)) {
+                queueSolvedArraysStateCells.add(currentArrayStateCells);
+
+                for (int row=0; row<number_rows; ++row) {
+                    for (int col=0; col<number_columns; ++col) {
+                        String[] newArrayStateCells = getNewArrayStateCells(currentArrayStateCells, row, col);
+                        if (!queueSolvedArraysStateCells.contains(newArrayStateCells)) {
+                            queueSolvedArraysStateCells.add(newArrayStateCells);
+                        }
+                        if(Arrays.equals(newArrayStateCells, userArrayStateCells)) {
+                            rowHint = row;
+                            columnHint = col;
+                            foundSolution = true;
+                            break;
+                        }
+                    }
+                    if (foundSolution) {
+                        break;
+                    }
+                }
+            }
+            if (foundSolution) {
+                break;
+            }
+        }
+
+        //int[] result = {rowHint, columnHint};
+        //return result;
+    }
+
+    public String[] getNewArrayStateCells(String[] arrayStateCells, int row, int column) {
+        return new String[9];
+    }
 }
