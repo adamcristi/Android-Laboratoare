@@ -11,4 +11,7 @@
     <string name="description_restart_icon">Restart game</string>
     <string name="description_white_image">White</string>
     <string name="description_black_image">Black</string>
+    <string name="title_help">Help</string>
+    <string name="description_help">\t\tThe goal of the game is to transform the grid of combined colored cells into a grid of all white cells or black cells.\n
+        \t\tThe game is finished when all the cells of the grid have the same color, doesn\'t matter if they are black or white.</string>
 </resources>

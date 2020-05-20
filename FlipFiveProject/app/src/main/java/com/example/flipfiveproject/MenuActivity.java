@@ -22,7 +22,7 @@ public class MenuActivity extends AppCompatActivity {
 
         buttonStartGame.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent gameIntent = new Intent(MenuActivity.this, GameActivity.class);
+                Intent gameIntent = new Intent(MenuActivity.this, LoadingActivity.class);
                 startActivity(gameIntent);
             }
         });

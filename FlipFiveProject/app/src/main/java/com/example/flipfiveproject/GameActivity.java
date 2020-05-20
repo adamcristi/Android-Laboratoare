@@ -17,6 +17,9 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -36,15 +39,6 @@ import java.util.Locale;
 
 
 public class GameActivity extends AppCompatActivity {
-    /*private EasyFlipView cellRow0Column0;
-    private EasyFlipView cellRow0Column1;
-    private EasyFlipView cellRow0Column2;
-    private EasyFlipView cellRow1Column0;
-    private EasyFlipView cellRow1Column1;
-    private EasyFlipView cellRow1Column2;
-    private EasyFlipView cellRow2Column0;
-    private EasyFlipView cellRow2Column1;
-    private EasyFlipView cellRow2Column2;*/
     private int number_rows = 3;
     private int number_columns = 3;
     private List<CardView> cards = new ArrayList<>();
@@ -123,65 +117,9 @@ public class GameActivity extends AppCompatActivity {
         valueBestScore = sharedPref.getInt(GameActivity.KEY_BEST_SCORE, 0);
         viewBestScore.setText(Integer.toString(valueBestScore));
 
-        /*CardView cardView = (CardView) findViewById(R.id.card_row_3_col_3);
-        cardView.setContentPadding(5,5,5,5);
-        cardView.setCardBackgroundColor(Color.WHITE);*/
-
-        /*cells.get(0).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cells.get(0).flipTheView();
-                cells.get(1).flipTheView();
-                cells.get(3).flipTheView();
-
-                valueCurrentScore += 1;
-                Log.d("Status", Integer.toString(valueCurrentScore));
-                viewCurrentScore.setText(Integer.toString(valueCurrentScore));
-            }
-        });*/
-
-
-        //flip2 = (EasyFlipView) findViewById(R.id.cell_row_1_col_2);
-        //Log.d("Status:", Boolean.toString(flip1.isFlipOnTouch()));
-        //flip1.flipTheView();
-
-        /*flip1.setOnTouchListener(new View. {
-
-            public void onClick(View v) {
-                flip2.flipTheView();
-            }
-        });*/
-
-        /*flip1.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                flip2.flipTheView();
-                return false;
-            }
-        });*/
-
-        //final EasyFlipView easyFlipView = (EasyFlipView) findViewById(R.id.easy_flip3);
-        /*cells.get(0).setOnFlipListener(new EasyFlipView.OnFlipAnimationListener() {
-            @Override
-            public void onViewFlipCompleted(EasyFlipView flipView, EasyFlipView.FlipState newCurrentSide)
-            {
-                valueCurrentScore += 1;
-                Log.d("Status", Integer.toString(valueCurrentScore));
-                viewCurrentScore.setText(Integer.toString(valueCurrentScore));
-
-                // flip2.flipTheView();
-                // ...
-                // Your code goes here
-                // ...
-
-            }
-        });*/
-
-        Log.d("Status", "onCreate called");
         onResumeRun = false;
 
     }
-
 
     protected  void onResume() {
         super.onResume();
@@ -198,33 +136,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    protected  void onPause() {
-        super.onPause();
-        Log.d("Status", "onPause called");
-    }
-
-    protected  void onStop() {
-        super.onStop();
-        Log.d("Status", "onStop called");
-    }
-
-    protected  void onRestart() {
-        super.onRestart();
-        Log.d("Status", "onRestart called");
-    }
-
-    protected  void onDestroy() {
-        super.onDestroy();
-        Log.d("Status", "onDestroy called");
-
-    }
-
     @Override
     public void onSaveInstanceState(Bundle instanceState) {
         instanceState.putString("valueCurrentScore", Integer.toString(valueCurrentScore));
         for(int index=0; index<number_rows*number_columns; ++index) {
-            //Log.d("Status", Integer.toString(index));
-            //Log.d("Status", cells.get(index).getCurrentFlipState().toString());
             instanceState.putString(String.format(Locale.getDefault(),"flipStateCell%d", index), cells.get(index).getCurrentFlipState().toString());
         }
         super.onSaveInstanceState(instanceState);
@@ -235,11 +150,6 @@ public class GameActivity extends AppCompatActivity {
         String savedValueCurrentScore = instanceState.getString("valueCurrentScore");
         valueCurrentScore = Integer.parseInt(savedValueCurrentScore);
         for(int index=0; index<number_rows*number_columns; ++index) {
-            //Log.d("Status", Integer.toString(index));
-           // Log.d("Status", cells.get(index).getCurrentFlipState().toString());
-           // Log.d("Status", instanceState.getString(String.format(Locale.getDefault(), "flipStateCell%d", index)));
-           // Log.d("Status", Boolean.toString(cells.get(index).getCurrentFlipState().toString().equals(instanceState.getString(String.format(Locale.getDefault(), "flipStateCell%d", index)))));
-
             String old_state_cell = instanceState.getString(String.format(Locale.getDefault(), "flipStateCell%d", index));
             if (!initial_state_cells.get(index).equals(old_state_cell)) {
                 initial_state_cells.set(index, old_state_cell);
@@ -247,6 +157,24 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.help:
+                Intent helpIntent = new Intent(GameActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
     View.OnTouchListener touchListenerCellRow0Column0 = new View.OnTouchListener() {
@@ -473,7 +401,7 @@ public class GameActivity extends AppCompatActivity {
             if (isGameFinished("FRONT_SIDE") || isGameFinished("BACK_SIDE")) {
                 counterLastSelectedCell -= 1;
                 if (counterLastSelectedCell == 0) {
-                    
+
                     if (valueCurrentScore < valueBestScore || valueBestScore == 0) {
                         valueBestScore = valueCurrentScore;
                         viewBestScore.setText(Integer.toString(valueBestScore));
@@ -500,42 +428,12 @@ public class GameActivity extends AppCompatActivity {
                         }
                     });
                     alertFinishedGame.create().show();
-
-                    /*aFinishedGame.setPositiveButton("New game", null);
-                    windowFinishedGame.setNegativeButton("Cancel", null);
-
-                    final AlertDialog alertFinishGame = windowFinishedGame.create();
-                    alertFinishGame.show();
-                    Button newGame = alertFinishGame.getButton(AlertDialog.BUTTON_POSITIVE);
-                    newGame.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            restartGame();
-                            alertFinishGame.dismiss();
-                        }
-                    });*/
-
-                    /*alertFinishGame.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog) {
-                            Button newGame = alertFinishGame.getButton(AlertDialog.BUTTON_POSITIVE);
-                            newGame.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    restartGame();
-                                    alertFinishGame.dismiss();
-                                }
-                            });
-                        }
-                    });
-                    alertFinishGame.show();*/
                 }
             }
 
             Log.d("Status", "am ajuns aici");
         }
     };
-
 
     private boolean isGameFinished(String side) {
         for (int index=0; index<9; ++index) {
@@ -618,9 +516,6 @@ public class GameActivity extends AppCompatActivity {
             alertHint.create().show();
         }
     };
-
-    //private List<String[]> queueUnseenArraysStateCells;
-    //private List<String[]> queueSeenArraysStateCells;
 
     private void findHint() {
         List<Integer> queueUnseenStateCells = new ArrayList<>();
@@ -728,126 +623,4 @@ public class GameActivity extends AppCompatActivity {
         }
         return stateCells;
     }
-
-
-    /*public void findHint() {
-        List<String[]> queueUnseenArraysStateCells = new ArrayList<>();
-        List<String[]> queueSeenArraysStateCells = new ArrayList<>();
-        rowHint = -1;
-        columnHint = -1;
-
-        String[] userArrayStateCells = new String[9];
-        for (int index = 0; index < number_rows * number_columns; ++index) {
-            if (cells.get(index).getCurrentFlipState().toString().equals("FRONT_SIDE")) {
-                userArrayStateCells[index] = "white";
-            } else if (cells.get(index).getCurrentFlipState().toString().equals("BACK_SIDE")) {
-                userArrayStateCells[index] = "black";
-            }
-        }
-        String[] completeArrayStateCells = {"black", "black", "black", "black", "black", "black", "black", "black", "black"};//{"white", "white", "white", "white", "white", "white", "white", "white", "white"};
-
-        queueUnseenArraysStateCells.add(Arrays.copyOf(completeArrayStateCells, completeArrayStateCells.length));
-        boolean foundSolution = false;
-        while (queueUnseenArraysStateCells.size() != 0) {
-            String[] currentArrayStateCells = Arrays.copyOf(queueUnseenArraysStateCells.get(0), queueUnseenArraysStateCells.get(0).length);
-            queueUnseenArraysStateCells.remove(0);
-
-            if (!queueSeenArraysStateCells.contains(currentArrayStateCells)) {
-                queueSeenArraysStateCells.add(currentArrayStateCells);
-
-                for (int row=0; row<number_rows; ++row) {
-                    for (int col=0; col<number_columns; ++col) {
-                        String[] newArrayStateCells = Arrays.copyOf(currentArrayStateCells, currentArrayStateCells.length);
-                        getNewArrayStateCells(newArrayStateCells, row, col);
-                        if (!queueSeenArraysStateCells.contains(newArrayStateCells)) {
-                            queueUnseenArraysStateCells.add(newArrayStateCells);
-                        }
-                        if(Arrays.equals(newArrayStateCells, userArrayStateCells)) {
-                            rowHint = row;
-                            columnHint = col;
-                            foundSolution = true;
-                            break;
-                        }
-                    }
-                    if (foundSolution) {
-                        break;
-                    }
-                }
-            }
-            if (foundSolution) {
-                break;
-            }
-        }
-
-        //int[] result = {rowHint, columnHint};
-        //return result;
-    }
-
-    public void updateStateCell(String[] arrayStateCells, int position) {
-        if (arrayStateCells[position].equals("white")) {
-            arrayStateCells[position] = "black";
-        } else {
-            arrayStateCells[position] = "white";
-        }
-    }
-
-    public void getNewArrayStateCells(String[] arrayStateCells, int row, int column) {
-        int position = row * number_columns + column;
-        switch (position) {
-            case 0:
-                updateStateCell(arrayStateCells, 0);
-                updateStateCell(arrayStateCells, 1);
-                updateStateCell(arrayStateCells, 3);
-                break;
-            case 1:
-                updateStateCell(arrayStateCells, 1);
-                updateStateCell(arrayStateCells, 0);
-                updateStateCell(arrayStateCells, 2);
-                updateStateCell(arrayStateCells, 4);
-                break;
-            case 2:
-                updateStateCell(arrayStateCells, 2);
-                updateStateCell(arrayStateCells, 1);
-                updateStateCell(arrayStateCells, 5);
-                break;
-            case 3:
-                updateStateCell(arrayStateCells, 3);
-                updateStateCell(arrayStateCells, 0);
-                updateStateCell(arrayStateCells, 4);
-                updateStateCell(arrayStateCells, 6);
-                break;
-            case 4:
-                updateStateCell(arrayStateCells, 4);
-                updateStateCell(arrayStateCells, 1);
-                updateStateCell(arrayStateCells, 3);
-                updateStateCell(arrayStateCells, 5);
-                updateStateCell(arrayStateCells, 7);
-                break;
-            case 5:
-                updateStateCell(arrayStateCells, 5);
-                updateStateCell(arrayStateCells, 2);
-                updateStateCell(arrayStateCells, 4);
-                updateStateCell(arrayStateCells, 8);
-                break;
-            case 6:
-                updateStateCell(arrayStateCells, 6);
-                updateStateCell(arrayStateCells, 3);
-                updateStateCell(arrayStateCells, 7);
-                break;
-            case 7:
-                updateStateCell(arrayStateCells, 7);
-                updateStateCell(arrayStateCells, 4);
-                updateStateCell(arrayStateCells, 6);
-                updateStateCell(arrayStateCells, 8);
-                break;
-            case 8:
-                updateStateCell(arrayStateCells, 8);
-                updateStateCell(arrayStateCells, 5);
-                updateStateCell(arrayStateCells, 7);
-                break;
-            default:
-                assert true;
-        }
-        //return arrayStateCells;
-    }*/
 }
