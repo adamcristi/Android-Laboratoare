@@ -2,15 +2,20 @@ package com.example.flipfiveproject;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
     private EasyFlipView cellRow2Column2;*/
     private int number_rows = 3;
     private int number_columns = 3;
+    private List<CardView> cards = new ArrayList<>();
     private List<EasyFlipView> cells = new ArrayList<>();
     private List<String> initial_state_cells = new ArrayList<>();
     private boolean onResumeRun;
@@ -44,6 +50,8 @@ public class GameActivity extends AppCompatActivity {
     private int valueCurrentScore = 0;
     private ImageButton buttonRestartGame;
     private ImageButton buttonHint;
+    private int rowHint;
+    private int columnHint;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -55,6 +63,16 @@ public class GameActivity extends AppCompatActivity {
         viewBestScore = (TextView) findViewById(R.id.best_score);
         buttonRestartGame = (ImageButton) findViewById(R.id.restart_icon);
         buttonHint = (ImageButton) findViewById(R.id.hint_icon);
+
+        cards.add((CardView) findViewById(R.id.card_row_1_col_1));
+        cards.add((CardView) findViewById(R.id.card_row_1_col_2));
+        cards.add((CardView) findViewById(R.id.card_row_1_col_3));
+        cards.add((CardView) findViewById(R.id.card_row_2_col_1));
+        cards.add((CardView) findViewById(R.id.card_row_2_col_2));
+        cards.add((CardView) findViewById(R.id.card_row_2_col_3));
+        cards.add((CardView) findViewById(R.id.card_row_3_col_1));
+        cards.add((CardView) findViewById(R.id.card_row_3_col_2));
+        cards.add((CardView) findViewById(R.id.card_row_3_col_3));
 
         cells.add((EasyFlipView) findViewById(R.id.cell_row_1_col_1));
         cells.add((EasyFlipView) findViewById(R.id.cell_row_1_col_2));
@@ -90,6 +108,10 @@ public class GameActivity extends AppCompatActivity {
 
         buttonRestartGame.setOnClickListener(clickListenerRestartGame);
         buttonHint.setOnClickListener(clickListenerHint);
+
+        CardView cardView = (CardView) findViewById(R.id.card_row_3_col_3);
+        cardView.setContentPadding(5,5,5,5);
+        cardView.setCardBackgroundColor(Color.WHITE);
 
         /*cells.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,6 +240,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(0).setCardBackgroundColor(Color.WHITE);
+                    cards.get(0).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 2;
                     cells.get(0).flipTheView();
                     cells.get(1).flipTheView();
@@ -238,6 +262,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(1).setCardBackgroundColor(Color.WHITE);
+                    cards.get(1).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 3;
                     cells.get(1).flipTheView();
                     cells.get(0).flipTheView();
@@ -259,6 +285,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(2).setCardBackgroundColor(Color.WHITE);
+                    cards.get(2).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 2;
                     cells.get(2).flipTheView();
                     cells.get(1).flipTheView();
@@ -279,6 +307,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(3).setCardBackgroundColor(Color.WHITE);
+                    cards.get(3).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 3;
                     cells.get(3).flipTheView();
                     cells.get(0).flipTheView();
@@ -300,6 +330,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(4).setCardBackgroundColor(Color.WHITE);
+                    cards.get(4).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 4;
                     cells.get(4).flipTheView();
                     cells.get(1).flipTheView();
@@ -322,6 +354,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(5).setCardBackgroundColor(Color.WHITE);
+                    cards.get(5).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 3;
                     cells.get(5).flipTheView();
                     cells.get(2).flipTheView();
@@ -343,6 +377,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(6).setCardBackgroundColor(Color.WHITE);
+                    cards.get(6).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 2;
                     cells.get(6).flipTheView();
                     cells.get(3).flipTheView();
@@ -363,6 +399,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(7).setCardBackgroundColor(Color.WHITE);
+                    cards.get(7).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 3;
                     cells.get(7).flipTheView();
                     cells.get(6).flipTheView();
@@ -384,6 +422,8 @@ public class GameActivity extends AppCompatActivity {
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    cards.get(8).setCardBackgroundColor(Color.WHITE);
+                    cards.get(8).setContentPadding(0,0,0,0);
                     valueCurrentScore -= 2;
                     cells.get(8).flipTheView();
                     cells.get(5).flipTheView();
@@ -406,8 +446,39 @@ public class GameActivity extends AppCompatActivity {
             valueCurrentScore += 1;
             Log.d("Status", Integer.toString(valueCurrentScore));
             viewCurrentScore.setText(Integer.toString(valueCurrentScore));
+
+            if (isGameFinished("FRONT_SIDE") || isGameFinished("BACK_SIDE")) {
+                AlertDialog.Builder alertFinishedGame = new AlertDialog.Builder(GameActivity.this);
+                alertFinishedGame.setTitle("Game finished!");
+                alertFinishedGame.setMessage(String.format("Current score: %d", valueCurrentScore));
+                alertFinishedGame.setPositiveButton("New game", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //dialog.cancel();
+                        //restartGame();
+                    }
+                });
+                alertFinishedGame.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast toast = Toast.makeText(GameActivity.this, "Option Quit!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                });
+                alertFinishedGame.create().show();
+            }
         }
     };
+
+
+    private boolean isGameFinished(String side) {
+        for (int index=0; index<9; ++index) {
+            if (!cells.get(index).getCurrentFlipState().toString().equals(side)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     View.OnClickListener clickListenerRestartGame = new View.OnClickListener() {
@@ -435,7 +506,7 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    public void restartGame() {
+    private void restartGame() {
         valueCurrentScore = 0;
         viewCurrentScore.setText("0");
         for (int index = 0; index < number_rows * number_columns; ++index) {
@@ -456,8 +527,19 @@ public class GameActivity extends AppCompatActivity {
             alertHint.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast toast = Toast.makeText(GameActivity.this, "Hint received!", Toast.LENGTH_SHORT);
-                    toast.show();
+                    GameActivity.this.findHint();
+                    AlertDialog.Builder alertHintResponse = new AlertDialog.Builder(GameActivity.this);
+                    alertHintResponse.setTitle("Hint");
+                    alertHintResponse.setMessage(String.format("Select the cell from row %d and column %d", rowHint+1, columnHint+1));
+                    alertHintResponse.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            cards.get(rowHint*number_columns+columnHint).setCardBackgroundColor(Color.parseColor("#D81B60"));
+                            cards.get(rowHint*number_columns+columnHint).setContentPadding(5,5,5,5);
+                            dialog.cancel();
+                        }
+                    });
+                    alertHintResponse.create().show();
                 }
             });
             alertHint.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -471,41 +553,148 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-    private List<String[]> queueUnsolvedArraysStateCells;
-    private List<String[]> queueSolvedArraysStateCells;
-    private int rowHint;
-    private int columnHint;
+    //private List<String[]> queueUnseenArraysStateCells;
+    //private List<String[]> queueSeenArraysStateCells;
 
-    public void findHint() {
-        queueUnsolvedArraysStateCells = new ArrayList<>();
-        queueSolvedArraysStateCells = new ArrayList<>();
+    private void findHint() {
+        List<Integer> queueUnseenStateCells = new ArrayList<>();
+        List<Integer> queueSeenStateCells = new ArrayList<>();
+        rowHint = -1;
+        columnHint = -1;
+
+        int userStateCells = 0;
+        for (int index = 0; index < number_rows * number_columns; ++index) {
+            if (cells.get(index).getCurrentFlipState().toString().equals("BACK_SIDE")) {
+                userStateCells |= (1 << index);
+            }
+        }
+        int completeStateCells = 0;
+
+        queueUnseenStateCells.add(completeStateCells);
+        boolean foundSolution = false;
+        while (queueUnseenStateCells.size() != 0) {
+            int currentStateCells = queueUnseenStateCells.get(0);
+            queueUnseenStateCells.remove(0);
+
+            if (!queueSeenStateCells.contains(currentStateCells)) {
+                queueSeenStateCells.add(currentStateCells);
+
+                for (int row=0; row<number_rows; ++row) {
+                    for (int col=0; col<number_columns; ++col) {
+                        int newStateCells = getNewStateCells(currentStateCells, row, col);
+                        if (!queueSeenStateCells.contains(newStateCells)) {
+                            queueUnseenStateCells.add(newStateCells);
+                        }
+                        if(newStateCells == userStateCells) {
+                            rowHint = row;
+                            columnHint = col;
+                            foundSolution = true;
+                            break;
+                        }
+                    }
+                    if (foundSolution) {
+                        break;
+                    }
+                }
+            }
+            if (foundSolution) {
+                break;
+            }
+        }
+    }
+
+    private int getNewStateCells(int stateCells, int row, int column) {
+        int position = row * number_columns + column;
+        switch (position) {
+            case 0:
+                stateCells ^= 1 << 0;
+                stateCells ^= 1 << 1;
+                stateCells ^= 1 << 3;
+                break;
+            case 1:
+                stateCells ^= 1 << 1;
+                stateCells ^= 1 << 0;
+                stateCells ^= 1 << 2;
+                stateCells ^= 1 << 4;
+                break;
+            case 2:
+                stateCells ^= 1 << 2;
+                stateCells ^= 1 << 1;
+                stateCells ^= 1 << 5;
+                break;
+            case 3:
+                stateCells ^= 1 << 3;
+                stateCells ^= 1 << 0;
+                stateCells ^= 1 << 4;
+                stateCells ^= 1 << 6;
+                break;
+            case 4:
+                stateCells ^= 1 << 4;
+                stateCells ^= 1 << 1;
+                stateCells ^= 1 << 3;
+                stateCells ^= 1 << 5;
+                stateCells ^= 1 << 7;
+                break;
+            case 5:
+                stateCells ^= 1 << 5;
+                stateCells ^= 1 << 2;
+                stateCells ^= 1 << 4;
+                stateCells ^= 1 << 8;
+                break;
+            case 6:
+                stateCells ^= 1 << 6;
+                stateCells ^= 1 << 3;
+                stateCells ^= 1 << 7;
+                break;
+            case 7:
+                stateCells ^= 1 << 7;
+                stateCells ^= 1 << 4;
+                stateCells ^= 1 << 6;
+                stateCells ^= 1 << 8;
+                break;
+            case 8:
+                stateCells ^= 1 << 8;
+                stateCells ^= 1 << 5;
+                stateCells ^= 1 << 7;
+                break;
+            default:
+                assert true;
+        }
+        return stateCells;
+    }
+
+
+    /*public void findHint() {
+        List<String[]> queueUnseenArraysStateCells = new ArrayList<>();
+        List<String[]> queueSeenArraysStateCells = new ArrayList<>();
         rowHint = -1;
         columnHint = -1;
 
         String[] userArrayStateCells = new String[9];
         for (int index = 0; index < number_rows * number_columns; ++index) {
             if (cells.get(index).getCurrentFlipState().toString().equals("FRONT_SIDE")) {
-                userArrayStateCells[0] = "white";
+                userArrayStateCells[index] = "white";
             } else if (cells.get(index).getCurrentFlipState().toString().equals("BACK_SIDE")) {
-                userArrayStateCells[0] = "black";
+                userArrayStateCells[index] = "black";
             }
         }
-        String[] completeArrayStateCells = {"white", "white", "white", "white", "white", "white", "white", "white", "white"};
+        String[] completeArrayStateCells = {"black", "black", "black", "black", "black", "black", "black", "black", "black"};//{"white", "white", "white", "white", "white", "white", "white", "white", "white"};
 
-        queueUnsolvedArraysStateCells.add(completeArrayStateCells);
+        queueUnseenArraysStateCells.add(Arrays.copyOf(completeArrayStateCells, completeArrayStateCells.length));
         boolean foundSolution = false;
-        while (queueUnsolvedArraysStateCells.size() != 0) {
-            String[] currentArrayStateCells = queueUnsolvedArraysStateCells.get(0);
-            queueUnsolvedArraysStateCells.remove(0);
+        while (queueUnseenArraysStateCells.size() != 0) {
+            String[] currentArrayStateCells = Arrays.copyOf(queueUnseenArraysStateCells.get(0), queueUnseenArraysStateCells.get(0).length);
+            queueUnseenArraysStateCells.remove(0);
 
-            if (!queueSolvedArraysStateCells.contains(currentArrayStateCells)) {
-                queueSolvedArraysStateCells.add(currentArrayStateCells);
+            if (!queueSeenArraysStateCells.contains(currentArrayStateCells)) {
+                queueSeenArraysStateCells.add(currentArrayStateCells);
 
                 for (int row=0; row<number_rows; ++row) {
                     for (int col=0; col<number_columns; ++col) {
-                        String[] newArrayStateCells = getNewArrayStateCells(currentArrayStateCells, row, col);
-                        if (!queueSolvedArraysStateCells.contains(newArrayStateCells)) {
-                            queueSolvedArraysStateCells.add(newArrayStateCells);
+                        String[] newArrayStateCells = Arrays.copyOf(currentArrayStateCells, currentArrayStateCells.length);
+                        getNewArrayStateCells(newArrayStateCells, row, col);
+                        if (!queueSeenArraysStateCells.contains(newArrayStateCells)) {
+                            queueUnseenArraysStateCells.add(newArrayStateCells);
                         }
                         if(Arrays.equals(newArrayStateCells, userArrayStateCells)) {
                             rowHint = row;
@@ -528,7 +717,71 @@ public class GameActivity extends AppCompatActivity {
         //return result;
     }
 
-    public String[] getNewArrayStateCells(String[] arrayStateCells, int row, int column) {
-        return new String[9];
+    public void updateStateCell(String[] arrayStateCells, int position) {
+        if (arrayStateCells[position].equals("white")) {
+            arrayStateCells[position] = "black";
+        } else {
+            arrayStateCells[position] = "white";
+        }
     }
+
+    public void getNewArrayStateCells(String[] arrayStateCells, int row, int column) {
+        int position = row * number_columns + column;
+        switch (position) {
+            case 0:
+                updateStateCell(arrayStateCells, 0);
+                updateStateCell(arrayStateCells, 1);
+                updateStateCell(arrayStateCells, 3);
+                break;
+            case 1:
+                updateStateCell(arrayStateCells, 1);
+                updateStateCell(arrayStateCells, 0);
+                updateStateCell(arrayStateCells, 2);
+                updateStateCell(arrayStateCells, 4);
+                break;
+            case 2:
+                updateStateCell(arrayStateCells, 2);
+                updateStateCell(arrayStateCells, 1);
+                updateStateCell(arrayStateCells, 5);
+                break;
+            case 3:
+                updateStateCell(arrayStateCells, 3);
+                updateStateCell(arrayStateCells, 0);
+                updateStateCell(arrayStateCells, 4);
+                updateStateCell(arrayStateCells, 6);
+                break;
+            case 4:
+                updateStateCell(arrayStateCells, 4);
+                updateStateCell(arrayStateCells, 1);
+                updateStateCell(arrayStateCells, 3);
+                updateStateCell(arrayStateCells, 5);
+                updateStateCell(arrayStateCells, 7);
+                break;
+            case 5:
+                updateStateCell(arrayStateCells, 5);
+                updateStateCell(arrayStateCells, 2);
+                updateStateCell(arrayStateCells, 4);
+                updateStateCell(arrayStateCells, 8);
+                break;
+            case 6:
+                updateStateCell(arrayStateCells, 6);
+                updateStateCell(arrayStateCells, 3);
+                updateStateCell(arrayStateCells, 7);
+                break;
+            case 7:
+                updateStateCell(arrayStateCells, 7);
+                updateStateCell(arrayStateCells, 4);
+                updateStateCell(arrayStateCells, 6);
+                updateStateCell(arrayStateCells, 8);
+                break;
+            case 8:
+                updateStateCell(arrayStateCells, 8);
+                updateStateCell(arrayStateCells, 5);
+                updateStateCell(arrayStateCells, 7);
+                break;
+            default:
+                assert true;
+        }
+        //return arrayStateCells;
+    }*/
 }
