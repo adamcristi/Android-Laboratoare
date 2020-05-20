@@ -3,10 +3,14 @@ package com.example.flipfiveproject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import androidx.preference.PreferenceManager;
+
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 import com.wajahatkarim3.easyflipview.EasyFlipView;
 
 import java.lang.reflect.Array;
+import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,10 +54,14 @@ public class GameActivity extends AppCompatActivity {
     private TextView viewCurrentScore;
     private TextView viewBestScore;
     private int valueCurrentScore = 0;
+    private int valueBestScore;
     private ImageButton buttonRestartGame;
     private ImageButton buttonHint;
     private int rowHint;
     private int columnHint;
+    private int counterLastSelectedCell;
+    private SharedPreferences sharedPref;
+    public static final String KEY_BEST_SCORE = "best_score";
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -109,9 +119,13 @@ public class GameActivity extends AppCompatActivity {
         buttonRestartGame.setOnClickListener(clickListenerRestartGame);
         buttonHint.setOnClickListener(clickListenerHint);
 
-        CardView cardView = (CardView) findViewById(R.id.card_row_3_col_3);
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(GameActivity.this);
+        valueBestScore = sharedPref.getInt(GameActivity.KEY_BEST_SCORE, 0);
+        viewBestScore.setText(Integer.toString(valueBestScore));
+
+        /*CardView cardView = (CardView) findViewById(R.id.card_row_3_col_3);
         cardView.setContentPadding(5,5,5,5);
-        cardView.setCardBackgroundColor(Color.WHITE);
+        cardView.setCardBackgroundColor(Color.WHITE);*/
 
         /*cells.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +260,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(0).flipTheView();
                     cells.get(1).flipTheView();
                     cells.get(3).flipTheView();
+                    counterLastSelectedCell = 3;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -269,6 +284,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(0).flipTheView();
                     cells.get(2).flipTheView();
                     cells.get(4).flipTheView();
+                    counterLastSelectedCell = 4;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -291,6 +307,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(2).flipTheView();
                     cells.get(1).flipTheView();
                     cells.get(5).flipTheView();
+                    counterLastSelectedCell = 3;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -314,6 +331,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(0).flipTheView();
                     cells.get(4).flipTheView();
                     cells.get(6).flipTheView();
+                    counterLastSelectedCell = 4;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -338,6 +356,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(3).flipTheView();
                     cells.get(5).flipTheView();
                     cells.get(7).flipTheView();
+                    counterLastSelectedCell = 5;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -361,6 +380,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(2).flipTheView();
                     cells.get(4).flipTheView();
                     cells.get(8).flipTheView();
+                    counterLastSelectedCell = 4;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -383,6 +403,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(6).flipTheView();
                     cells.get(3).flipTheView();
                     cells.get(7).flipTheView();
+                    counterLastSelectedCell = 3;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -406,6 +427,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(6).flipTheView();
                     cells.get(4).flipTheView();
                     cells.get(8).flipTheView();
+                    counterLastSelectedCell = 4;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -428,6 +450,7 @@ public class GameActivity extends AppCompatActivity {
                     cells.get(8).flipTheView();
                     cells.get(5).flipTheView();
                     cells.get(7).flipTheView();
+                    counterLastSelectedCell = 3;
                     break;
                 case MotionEvent.ACTION_UP:
                     v.performClick();
@@ -448,25 +471,68 @@ public class GameActivity extends AppCompatActivity {
             viewCurrentScore.setText(Integer.toString(valueCurrentScore));
 
             if (isGameFinished("FRONT_SIDE") || isGameFinished("BACK_SIDE")) {
-                AlertDialog.Builder alertFinishedGame = new AlertDialog.Builder(GameActivity.this);
-                alertFinishedGame.setTitle("Game finished!");
-                alertFinishedGame.setMessage(String.format("Current score: %d", valueCurrentScore));
-                alertFinishedGame.setPositiveButton("New game", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //dialog.cancel();
-                        //restartGame();
+                counterLastSelectedCell -= 1;
+                if (counterLastSelectedCell == 0) {
+                    
+                    if (valueCurrentScore < valueBestScore || valueBestScore == 0) {
+                        valueBestScore = valueCurrentScore;
+                        viewBestScore.setText(Integer.toString(valueBestScore));
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putInt(GameActivity.KEY_BEST_SCORE, valueBestScore);
+                        editor.apply();
                     }
-                });
-                alertFinishedGame.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast toast = Toast.makeText(GameActivity.this, "Option Quit!", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                });
-                alertFinishedGame.create().show();
+
+                    AlertDialog.Builder alertFinishedGame = new AlertDialog.Builder(GameActivity.this);
+                    alertFinishedGame.setTitle("Game finished!");
+                    alertFinishedGame.setMessage(String.format("Current score: %d \n Best score: %d", valueCurrentScore, valueBestScore));
+                    alertFinishedGame.setPositiveButton("New game", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            restartGame();
+                            Toast toast = Toast.makeText(GameActivity.this, "Game Restarted!", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    });
+                    alertFinishedGame.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    alertFinishedGame.create().show();
+
+                    /*aFinishedGame.setPositiveButton("New game", null);
+                    windowFinishedGame.setNegativeButton("Cancel", null);
+
+                    final AlertDialog alertFinishGame = windowFinishedGame.create();
+                    alertFinishGame.show();
+                    Button newGame = alertFinishGame.getButton(AlertDialog.BUTTON_POSITIVE);
+                    newGame.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            restartGame();
+                            alertFinishGame.dismiss();
+                        }
+                    });*/
+
+                    /*alertFinishGame.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            Button newGame = alertFinishGame.getButton(AlertDialog.BUTTON_POSITIVE);
+                            newGame.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    restartGame();
+                                    alertFinishGame.dismiss();
+                                }
+                            });
+                        }
+                    });
+                    alertFinishGame.show();*/
+                }
             }
+
+            Log.d("Status", "am ajuns aici");
         }
     };
 
